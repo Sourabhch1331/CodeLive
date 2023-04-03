@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
 const http= require('http');
 const express = require('express');
+const app = express();
 const {Server} = require('socket.io');
-const { Socket } = require('dgram');
 const ACTIONS = require('./src/Actions');
 
-const app = express();
 
 const server = http.createServer(app);
 const io = new Server(server);
@@ -24,7 +23,6 @@ const getAllConnectedClients=(roomId)=>{
 io.on('connection',(socket)=>{
     console.log('socket connected ',socket.id);
 
-
     socket.on(ACTIONS.JOIN,({roomId,userName})=>{
         userSocketMap[socket.id]=userName;
         socket.join(roomId);
@@ -34,12 +32,11 @@ io.on('connection',(socket)=>{
             io.to(socketId).emit(ACTIONS.JOINED,{
                 clients,
                 userName,
-                socketId
+                socketId:socket.id,
             });
         });
 
     });
-
 
     socket.on('disconnecting',()=>{
         const rooms = [...socket.rooms];
@@ -56,6 +53,12 @@ io.on('connection',(socket)=>{
 
     socket.on(ACTIONS.CODE_CHANGE,({roomId,code})=>{
         socket.in(roomId).emit(ACTIONS.CODE_CHANGE,{
+            code
+        });
+    })
+
+    socket.on(ACTIONS.SYNC_CODE,({socketId,code})=>{
+        io.to(socketId).emit(ACTIONS.CODE_CHANGE,{
             code
         });
     })

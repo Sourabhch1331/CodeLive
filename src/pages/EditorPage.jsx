@@ -46,17 +46,13 @@ const EditorPage = () => {
 				if(userName !== location.state?.userName){
 					toast.success(`${userName} joined the room.`);
 					console.log(`${userName} joined.`);
-				}else{
-					toast.success(`Joined succesfully.`);
 				}
 				
-				setClients(prevClients => clients);
-				
-				socketRef.current.emit(ACTIONS.SYNC_CODE,{
-					code:codeRef.current,
-					socketId
+				setClients(clients);
+				socketRef.current.emit(ACTIONS.SYNC_CODE, {
+					code: codeRef.current,
+					socketId,
 				});
-
 			});
 
 			// Listening for DISCONNECTED
@@ -115,7 +111,13 @@ const EditorPage = () => {
 				<button onClick={leaveRoom} className='btn leaveBtn' >Leave</button>
 			</div>
 			<div className="editorWapper">
-				<Editor socketRef={socketRef} roomId={roomId}/>
+				<Editor 
+					socketRef={socketRef} 
+					roomId={roomId} 
+					onCodeChange={(code)=>{
+						codeRef.current=code;
+					}}
+				/>
 			</div>
 		</div>
 	)
