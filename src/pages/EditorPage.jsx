@@ -130,7 +130,7 @@ const EditorPage = () => {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/x-www-form-urlencoded',
-				'X-RapidAPI-Key': 'aacb54ad53msh138556cefe14c8bp10376ejsnb4b02132a340',
+				'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
 				'X-RapidAPI-Host': 'code-compiler.p.rapidapi.com'
 			},
 			body: encodedParams
