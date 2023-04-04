@@ -5,7 +5,7 @@ const Client = ({userName}) => {
 
   return (
     <div className='client' >
-        <Avatar name={userName} size={50} round='14px'/>
+        <Avatar name={userName} size={40} round='10px'/>
         <span className='userName'>{userName}</span>
     </div>
   )
