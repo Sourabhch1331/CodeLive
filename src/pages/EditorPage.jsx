@@ -148,8 +148,6 @@ const EditorPage = () => {
 			})
 			.catch(err => console.error('err',err))
 			.then();
-
-		
 	}
 
 	return (
